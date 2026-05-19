@@ -25,7 +25,7 @@ int main()
 
 	double W_tbuff_1_p, W_tbuff_1_n, L_tbuff_1_p, L_tbuff_1_n;
 
-    double C_GS_13, C_GS_14;
+	double C_GS_13, C_GS_14;
 
 	double C_GD_13, C_GD_14;
 
@@ -39,18 +39,18 @@ int main()
 
 	double K;
 
-    // Calcoli
+	// Calcoli
 
 	W_nand_p = W_nand_n = W_min;
 
-    L_nand_p = L_nand_n = L_min;
+	L_nand_p = L_nand_n = L_min;
 
 	W_tbuff_1_n = W_min;
 
 	W_tbuff_1_p = 2 * W_min;
 
 	L_tbuff_1_p = L_tbuff_1_n = L_min;
-    
+
 	C_GS_13 = 2 * C_ox * W_tbuff_1_p * L_tbuff_1_p / 3;
 
 	C_GS_14 = 2 * C_ox * W_tbuff_1_n * L_tbuff_1_n / 3;
@@ -104,11 +104,18 @@ int main()
 		return 0;
 	}
 
-	if( pow(K_alla_N, 1 / N) - floor(pow(K_alla_N, 1 / N)) >= 0.5) {
+	if (pow(K_alla_N, 1 / N) - floor(pow(K_alla_N, 1 / N)) >= 0.5) {
 		K = ceil(pow(K_alla_N, 1 / N));
 	}
 	else {
 		K = floor(pow(K_alla_N, 1 / N));
+	}
+
+	double Dimensioni[10] = {0};
+
+	for (int i = 0; i < N; i++) {
+
+		Dimensioni[i] = 220e-9 * pow(K, i);
 	}
 
     // Valori ottenuti
@@ -131,7 +138,14 @@ int main()
 
 	std::cout << "K: " << K << "\n";
 
+	std::cout << "Dimensioni dei transistor del buffer di dimensionamento: \n";
+	for (int i = 0; i < N; i++) {
+		std::cout << "p: " << i+1 << " => " << Dimensioni[i] * 3 << " m\n";
+		std::cout << "n: " << i+1 << " => " << Dimensioni[i] << " m\n\n";
+	}
+
     std::cout << "Hello World!\n";
+
 }
 
 // Per eseguire il programma: CTRL+F5 oppure Debug > Avvia senza eseguire debug
