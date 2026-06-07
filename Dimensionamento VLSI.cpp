@@ -23,7 +23,7 @@ double mu_n_C_ox = 320e-6; // prodotto tra mobilità elettronica e capacità di 
 
 double V_th = 0.45; // Tensione di soglia
 
-double Frequency_target = 1e5; // Frequenza di oscillazione target
+// double Frequency_target = 1e5; // Frequenza di oscillazione target
 
 int main()
 {
@@ -65,7 +65,7 @@ int main()
 
 	double oscillation_frequency; 
 
-	double C_tot_new;
+	// double C_tot_new;
 
 	// Calcoli
 
@@ -77,7 +77,7 @@ int main()
 
 	W_tbuff_1_n = W_min;
 
-	W_tbuff_1_p = 3 * W_min;
+	W_tbuff_1_p = 2 * W_min;
 
 	L_tbuff_1_p = L_tbuff_1_n = L_min;
 
@@ -135,11 +135,14 @@ int main()
 	}
 
 	if (pow(K_alla_N, 1 / N) - floor(pow(K_alla_N, 1 / N)) >= 0.5) {
-		K = ceil(pow(K_alla_N, 1 / N));
+		K = ceil(pow(K_alla_N, 1 / N))-2;
 	}
 	else {
-		K = floor(pow(K_alla_N, 1 / N));
+		K = floor(pow(K_alla_N, 1 / N))-2;
 	}
+
+	std::cout << "N scelto: " << N << "\n";
+	std::cout << "K imposto: " << K << "\n";
 
 	double Dimensioni[10] = {0};
 
@@ -152,7 +155,7 @@ int main()
 
 	W_inv_n = W_min;
 
-	W_inv_p = 3 * W_min;
+	W_inv_p = 2 * W_min;
 
 	C_GS_inv_n_next = 2 * C_ox * W_inv_n * L_inv_n / 3;
 
@@ -162,9 +165,9 @@ int main()
 
 	C_GD_inv_p_prev = C_ox * W_inv_p * L_inv_p;
 
-	C_DB_inv_n_prev = 5e-16 * W_inv_n * L_inv_n;
+	C_DB_inv_n_prev = 5e-4 * W_inv_n * L_inv_n;
 
-	C_DB_inv_p_prev = 5e-16 * W_inv_p * L_inv_p;
+	C_DB_inv_p_prev = 5e-4 * W_inv_p * L_inv_p;
 
 	C_line = 0;
 
@@ -176,9 +179,9 @@ int main()
 
 
 
-	C_tot_new = mu_n_C_ox * W_inv_n * (V_DD - V_th) * (V_DD - V_th) / 2 * N_inv * Frequency_target * V_DD * L_inv_n;
+	// C_tot_new = mu_n_C_ox * W_inv_n * (V_DD - V_th) * (V_DD - V_th) / 2 * N_inv * Frequency_target * V_DD * L_inv_n;
 
-	C_line = C_tot_new - C_tot_inv;
+	// C_line = C_tot_new - C_tot_inv;
 
     // Valori ottenuti
 
@@ -202,7 +205,7 @@ int main()
 
 	std::cout << "Dimensioni dei transistor del buffer di dimensionamento: \n";
 	for (int i = 0; i < N; i++) {
-		std::cout << "p: " << i+1 << " => " << Dimensioni[i] * 3 << " m\n";
+		std::cout << "p: " << i+1 << " => " << Dimensioni[i] * 2.5 << " m\n";
 		std::cout << "n: " << i+1 << " => " << Dimensioni[i] << " m\n\n";
 	}
 
@@ -214,9 +217,16 @@ int main()
 
 	std::cout << "\n";
 
-	std::cout << "C_line: " << C_line << " F\n";
+	std::cout << "C_GS_inv_p_next: " << C_GS_inv_p_next << " F\n";
+	std::cout << "C_GS_inv_n_next: " << C_GS_inv_n_next << " F\n";
+	std::cout << "C_GD_inv_p_prev: " << C_GD_inv_p_prev << " F\n";
+	std::cout << "C_GD_inv_n_prev: " << C_GD_inv_n_prev << " F\n";
+	std::cout << "C_DB_inv_p_prev: " << C_DB_inv_p_prev << " F\n";
+	std::cout << "C_DB_inv_n_prev: " << C_DB_inv_n_prev << " F\n";
 
-	std::cout << "C_tot_new: " << C_tot_new << " F\n";
+	// std::cout << "C_line: " << C_line << " F\n";
+
+	// std::cout << "C_tot_new: " << C_tot_new << " F\n";
 
     std::cout << "Hello World!\n";
 
